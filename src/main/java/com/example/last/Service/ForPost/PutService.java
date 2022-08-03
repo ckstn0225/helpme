@@ -23,6 +23,6 @@ public class PutService {
                 () -> new IllegalArgumentException("해당 아이디가 존재하지 않습니다.")
         );
         post1.update(updateDto);
-        return "ID: ["+post1.getPostid()+"]의 업데이트 완료!";
+        return "ID: ["+post1.getId()+"]의 업데이트 완료!";
     }
 }

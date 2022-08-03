@@ -4,6 +4,7 @@ import com.example.last.Dto.ForPost.DetailDto;
 import com.example.last.Dto.ForPost.ListDto;
 import com.example.last.Dto.ForPost.UpdateDto;
 import com.example.last.Dto.ForPost.WriteDto;
+import com.example.last.Entity.Post;
 import com.example.last.Repository.PostRepository;
 import com.example.last.Service.ForPost.*;
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,7 @@ public class PostController {
 //    글상세조회
     @GetMapping("/post/{id}")
     @ResponseBody
-    private DetailDto detail(@PathVariable long id){
+    private Post detail(@PathVariable long id){
         return detailSevice.detailDto(id);
     }
 //    글 수정

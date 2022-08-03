@@ -19,7 +19,7 @@ public class DetailDto {
     LocalDateTime modifiedAt;
 
     public DetailDto(Post post) {
-        this.id = post.getPostid();
+        this.id = post.getId();
         this.title = post.getTitle();
         this.contents = post.getContents();
         this.username = post.getUsername();

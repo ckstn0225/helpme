@@ -20,9 +20,8 @@ public class DetailSevice {
     }
 
     @Transactional
-    public DetailDto detailDto(Long id) {
-        Post post = postRepository.getReferenceById(id);
-        return new DetailDto(post);
+    public Post detailDto(Long id) {
+        return postRepository.getReferenceById(id);
     }
 
 
