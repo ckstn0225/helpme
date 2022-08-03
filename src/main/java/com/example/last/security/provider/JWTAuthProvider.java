@@ -1,10 +1,10 @@
 package com.example.last.security.provider;
 
-import com.sparta.springcore.model.User;
-import com.sparta.springcore.repository.UserRepository;
-import com.sparta.springcore.security.UserDetailsImpl;
-import com.sparta.springcore.security.jwt.JwtDecoder;
-import com.sparta.springcore.security.jwt.JwtPreProcessingToken;
+import com.example.last.Entity.Auther;
+import com.example.last.Repository.UserRepository;
+import com.example.last.security.UserDetailsImpl;
+import com.example.last.security.jwt.JwtDecoder;
+import com.example.last.security.jwt.JwtPreProcessingToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,7 +31,7 @@ public class JWTAuthProvider implements AuthenticationProvider {
         //  -> 해결을 위해서는 UserDetailsImpl 에 User 객체를 저장하지 않도록 수정
         //  ex) UserDetailsImpl 에 userId, username, role 만 저장
         //    -> JWT 에 userId, username, role 정보를 암호화/복호화하여 사용
-        User user = userRepository.findByUsername(username)
+        Auther user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Can't find " + username));;
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

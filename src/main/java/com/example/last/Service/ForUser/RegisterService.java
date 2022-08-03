@@ -1,19 +1,28 @@
 package com.example.last.Service.ForUser;
 
-import com.example.last.Dto.ForUser.LoginDto;
+
 import com.example.last.Dto.ForUser.RegisterDto;
 import com.example.last.Entity.Auther;
 import com.example.last.Repository.UserRepository;
+import com.example.last.security.WebSecurityConfig;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+
 @Service
 public class RegisterService {
 
+    private final PasswordEncoder passwordEncoder;
+
+    private final WebSecurityConfig webSecurityConfig;
+
     private final UserRepository userRepository;
 
-    public RegisterService(UserRepository userRepository) {
+    public RegisterService(PasswordEncoder passwordEncoder, WebSecurityConfig webSecurityConfig, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.webSecurityConfig = webSecurityConfig;
         this.userRepository = userRepository;
     }
 
@@ -35,12 +44,13 @@ public class RegisterService {
         } else if (!password.equals(password2)) {
             return "비밀번호가 일치하지않습니다!";
         }
-
-        Auther auther = new Auther(registerDto.getUsername(), registerDto.getPassword());
+        String encopass = passwordEncoder.encode(registerDto.getPassword());
+        Auther auther = new Auther(registerDto.getUsername(),encopass);
         userRepository.save(auther);
 
         return "회원가입 완료!";
 
     }
+
 
 }

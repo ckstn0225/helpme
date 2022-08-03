@@ -11,5 +11,4 @@ import lombok.NoArgsConstructor;
 public class WriteDto extends Timestamped {
     String title;
     String contents;
-    String username;
 }

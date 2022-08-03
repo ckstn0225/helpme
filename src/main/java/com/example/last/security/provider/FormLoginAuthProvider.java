@@ -1,6 +1,6 @@
 package com.example.last.security.provider;
 
-import com.sparta.springcore.security.UserDetailsImpl;
+import com.example.last.security.UserDetailsImpl;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

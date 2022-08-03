@@ -2,6 +2,7 @@ package com.example.last.Entity;
 
 import com.example.last.Dto.ForPost.UpdateDto;
 import com.example.last.Dto.ForPost.WriteDto;
+import com.example.last.security.UserDetailsImpl;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,9 +34,9 @@ public class Post extends Timestamped{
     private String contents;
 
 
-    public Post(WriteDto writeDto) {
+    public Post(WriteDto writeDto, UserDetailsImpl userDetails) {
         this.title = writeDto.getTitle();
-        this.username = writeDto.getUsername();
+        this.username = userDetails.getUsername();
         this.contents = writeDto.getContents();
     }
 

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.Optional;
 
-import static com.sparta.springcore.security.jwt.JwtTokenUtils.*;
+import static com.example.last.security.jwt.JwtTokenUtils.*;
+
 
 @Component
 public class JwtDecoder {

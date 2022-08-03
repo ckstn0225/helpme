@@ -1,11 +1,14 @@
 package com.example.last.security;
 
-import com.sparta.springcore.security.jwt.JwtTokenUtils;
+
+import com.example.last.security.jwt.JwtTokenUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class FormLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     public static final String AUTH_HEADER = "Authorization";
@@ -13,8 +16,11 @@ public class FormLoginSuccessHandler extends SavedRequestAwareAuthenticationSucc
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
-                                        final Authentication authentication) {
+                                        final Authentication authentication) throws IOException {
         final UserDetailsImpl userDetails = ((UserDetailsImpl) authentication.getPrincipal());
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        out.println(true);
         // Token 생성
         final String token = JwtTokenUtils.generateJwtToken(userDetails);
         response.addHeader(AUTH_HEADER, TOKEN_TYPE + " " + token);

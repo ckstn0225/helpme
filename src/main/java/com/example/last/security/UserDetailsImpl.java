@@ -1,7 +1,7 @@
 package com.example.last.security;
 
-import com.sparta.springcore.model.User;
-import com.sparta.springcore.model.UserRoleEnum;
+
+import com.example.last.Entity.Auther;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,14 +11,19 @@ import java.util.Collection;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private final User user;
+    private final Auther user;
 
-    public UserDetailsImpl(User user) {
+    public UserDetailsImpl(Auther user) {
         this.user = user;
     }
 
-    public User getUser() {
+    public Auther getUser() {
         return user;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     @Override
@@ -51,15 +56,6 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        UserRoleEnum role = user.getRole();
-        String authority = role.getAuthority();
 
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(simpleGrantedAuthority);
 
-        return authorities;
-    }
 }

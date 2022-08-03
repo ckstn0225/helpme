@@ -2,7 +2,8 @@ package com.example.last.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.sparta.springcore.security.UserDetailsImpl;
+import com.example.last.security.UserDetailsImpl;
+
 
 import java.util.Date;
 

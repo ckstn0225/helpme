@@ -7,6 +7,8 @@ import com.example.last.Dto.ForPost.WriteDto;
 import com.example.last.Entity.Post;
 import com.example.last.Repository.PostRepository;
 import com.example.last.Service.ForPost.*;
+import com.example.last.security.UserDetailsImpl;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,9 +34,8 @@ public class PostController {
 //  글작성
     @PostMapping("/post")
     @ResponseBody
-    public String posting(@RequestBody WriteDto writeDto){
-
-       return writeService.Write(writeDto);
+    public String posting(@RequestBody WriteDto writeDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+       return writeService.Write(writeDto,userDetails);
     }
 //    글목록조회
     @GetMapping("/post")
@@ -52,13 +53,13 @@ public class PostController {
 //    글 수정
     @PutMapping("/post/{id}")
     @ResponseBody
-    private String update(@PathVariable long id, @RequestBody UpdateDto updateDto){
-        return putService.Update(id, updateDto);
+    private String update(@PathVariable long id, @RequestBody UpdateDto updateDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return putService.Update(id, updateDto, userDetails);
     }
 //    글 삭제
     @DeleteMapping("/post/{id}")
     @ResponseBody
-    private String remove(@PathVariable long id){
-        return removeService.DeletePost(id);
+    private String remove(@PathVariable long id,@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return removeService.DeletePost(id,userDetails);
     }
 }

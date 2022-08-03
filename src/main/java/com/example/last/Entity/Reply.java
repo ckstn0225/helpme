@@ -3,6 +3,7 @@ package com.example.last.Entity;
 
 import com.example.last.Dto.ForReply.ReplyDto;
 import com.example.last.Dto.ForReply.ReplyPutDto;
+import com.example.last.security.UserDetailsImpl;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,10 +39,10 @@ public class Reply extends Timestamped{
 
 
 
-    public Reply(long id ,ReplyDto replyDto) {
+    public Reply(long id , ReplyDto replyDto, UserDetailsImpl usr) {
         this.postid = id;
         this.contents = replyDto.getContents();
-        this.username = replyDto.getUsername();
+        this.username = usr.getUsername();
     }
 
 

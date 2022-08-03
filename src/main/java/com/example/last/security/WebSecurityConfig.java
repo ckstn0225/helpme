@@ -1,10 +1,11 @@
 package com.example.last.security;
 
-import com.sparta.springcore.security.filter.FormLoginFilter;
-import com.sparta.springcore.security.filter.JwtAuthFilter;
-import com.sparta.springcore.security.jwt.HeaderTokenExtractor;
-import com.sparta.springcore.security.provider.FormLoginAuthProvider;
-import com.sparta.springcore.security.provider.JWTAuthProvider;
+
+import com.example.last.security.filter.FormLoginFilter;
+import com.example.last.security.filter.JwtAuthFilter;
+import com.example.last.security.jwt.HeaderTokenExtractor;
+import com.example.last.security.provider.FormLoginAuthProvider;
+import com.example.last.security.provider.JWTAuthProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -121,8 +122,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("GET,/h2-console/**");
         skipPathList.add("POST,/h2-console/**");
         // 회원 관리 API 허용
-        skipPathList.add("GET,/user/**");
-        skipPathList.add("POST,/user/signup");
+        skipPathList.add("POST,/user/register");
+        skipPathList.add("GET,/post");
+        skipPathList.add("GET,/post/**");
+        skipPathList.add("GET,/reply/**");
+
+
 
         skipPathList.add("GET,/");
         skipPathList.add("GET,/basic.js");

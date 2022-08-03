@@ -11,6 +11,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
     final private ObjectMapper objectMapper;
@@ -21,17 +22,22 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        UsernamePasswordAuthenticationToken authRequest;
+
+
+        JsonNode requestBody = null;
         try {
-            JsonNode requestBody = objectMapper.readTree(request.getInputStream());
-            String username = requestBody.get("username").asText();
-            String password = requestBody.get("password").asText();
-            authRequest = new UsernamePasswordAuthenticationToken(username, password);
-        } catch (Exception e) {
-            throw new RuntimeException("username, password 입력이 필요합니다. (JSON)");
+            requestBody = objectMapper.readTree(request.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException("내용이 없습니다!");
+        } catch (NullPointerException e){
+            throw new RuntimeException("내용이 없습니다!");
         }
+        String username = requestBody.get("username").asText();
+        String password = requestBody.get("password").asText();
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
 
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);
