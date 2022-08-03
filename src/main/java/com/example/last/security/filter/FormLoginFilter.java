@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
     final private ObjectMapper objectMapper;
@@ -25,19 +26,19 @@ public class FormLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-
+        UsernamePasswordAuthenticationToken authRequest = null;
 
         JsonNode requestBody = null;
         try {
             requestBody = objectMapper.readTree(request.getInputStream());
+            String username = requestBody.get("username").asText();
+            String password = requestBody.get("password").asText();
+            authRequest = new UsernamePasswordAuthenticationToken(username, password);
         } catch (IOException e) {
-            throw new RuntimeException("내용이 없습니다!");
+            throw new RuntimeException("사용자를 찾을 수 없습니다!");
         } catch (NullPointerException e){
-            throw new RuntimeException("내용이 없습니다!");
+            throw new NullPointerException("사용자를 찾을 수 없습니다!");
         }
-        String username = requestBody.get("username").asText();
-        String password = requestBody.get("password").asText();
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
 
         setDetails(request, authRequest);
         return this.getAuthenticationManager().authenticate(authRequest);

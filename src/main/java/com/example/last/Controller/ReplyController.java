@@ -26,6 +26,7 @@ public class ReplyController {
     private final ReplyPutService replyPutService;
 
 
+//    댓글 달기
     @PostMapping("/reply/{id}")
     @ResponseBody
     public String reply(@PathVariable long id, @RequestBody ReplyDto replyDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
@@ -39,7 +40,7 @@ public class ReplyController {
         return replyGetService.GetReply(id);
     }
 
-//    댓글
+//    댓글 게시글에있는거 전체조회
     @GetMapping("reply/post/{id}")
     @ResponseBody
     public List<Reply> GetListreply(@PathVariable long id) {

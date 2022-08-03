@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Post extends Timestamped{
     // ID가 자동으로 생성 및 증가합니다.
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "POST_ID")
     private Long id;
