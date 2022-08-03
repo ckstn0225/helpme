@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class PostController {
 
     private final WriteService writeService;
@@ -42,10 +42,11 @@ public class PostController {
     private List<ListDto> List() {
         return listService.ListGet();
     }
+
 //    글상세조회
     @GetMapping("/post/{id}")
     @ResponseBody
-    private Post detail(@PathVariable long id){
+    private DetailDto detail(@PathVariable long id){
         return detailSevice.detailDto(id);
     }
 //    글 수정

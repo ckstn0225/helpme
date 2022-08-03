@@ -25,7 +25,7 @@ public class Post extends Timestamped{
 
     @Column(nullable = false)
     private String title;
-    // 반드시 값을 가지도록 합니다.
+
     @Column(nullable = false)
     private String username;
 
