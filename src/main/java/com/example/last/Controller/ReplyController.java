@@ -48,6 +48,7 @@ public class ReplyController {
     public String Putreply(@PathVariable long id, @RequestBody ReplyPutDto replyDto) {
         return replyPutService.putReply(id,replyDto);
     }
+
     @DeleteMapping("/reply/{id}")
     public String Delete(@PathVariable long id) {
         return replyService.Delete(id);
