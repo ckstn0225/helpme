@@ -1,8 +1,10 @@
 package com.example.last.security;
 
 
+import com.example.last.Service.ForUser.TokenService;
 import com.example.last.security.filter.FormLoginFilter;
 import com.example.last.security.filter.JwtAuthFilter;
+//import com.example.last.security.filter.RefreshFilter;
 import com.example.last.security.jwt.HeaderTokenExtractor;
 import com.example.last.security.provider.FormLoginAuthProvider;
 import com.example.last.security.provider.JWTAuthProvider;
@@ -29,11 +31,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JWTAuthProvider jwtAuthProvider;
     private final HeaderTokenExtractor headerTokenExtractor;
-
     public WebSecurityConfig(
             JWTAuthProvider jwtAuthProvider,
-            HeaderTokenExtractor headerTokenExtractor
-    ) {
+            HeaderTokenExtractor headerTokenExtractor,
+            TokenService tokenService) {
         this.jwtAuthProvider = jwtAuthProvider;
         this.headerTokenExtractor = headerTokenExtractor;
     }
@@ -76,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .addFilterBefore(formLoginFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
-
+//                .addFilterBefore(refreshFilter(),UsernamePasswordAuthenticationFilter.class)
         http.authorizeRequests()
                 .anyRequest()
                 .permitAll()
@@ -113,11 +114,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private JwtAuthFilter jwtFilter() throws Exception {
         List<String> skipPathList = new ArrayList<>();
-
         // Static 정보 접근 허용
         skipPathList.add("GET,/images/**");
         skipPathList.add("GET,/css/**");
-
         // h2-console 허용
         skipPathList.add("GET,/h2-console/**");
         skipPathList.add("POST,/h2-console/**");
@@ -126,27 +125,49 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("GET,/post");
         skipPathList.add("GET,/post/**");
         skipPathList.add("GET,/reply/**");
-
-
-
         skipPathList.add("GET,/");
         skipPathList.add("GET,/basic.js");
-
         skipPathList.add("GET,/favicon.ico");
-
         FilterSkipMatcher matcher = new FilterSkipMatcher(
                 skipPathList,
                 "/**"
         );
-
         JwtAuthFilter filter = new JwtAuthFilter(
                 matcher,
                 headerTokenExtractor
         );
         filter.setAuthenticationManager(super.authenticationManagerBean());
-
         return filter;
     }
+//    @Bean
+//    public RefreshFilter refreshFilter() throws Exception {
+//        List<String> skipPathList = new ArrayList<>();
+//        // Static 정보 접근 허용
+//        skipPathList.add("GET,/images/**");
+//        skipPathList.add("GET,/css/**");
+//        // h2-console 허용
+//        skipPathList.add("GET,/h2-console/**");
+//        skipPathList.add("POST,/h2-console/**");
+//        // 회원 관리 API 허용
+//        skipPathList.add("POST,/user/register");
+//        skipPathList.add("GET,/post");
+//        skipPathList.add("GET,/post/**");
+//        skipPathList.add("GET,/reply/**");
+//        skipPathList.add("GET,/");
+//        skipPathList.add("GET,/basic.js");
+//        skipPathList.add("GET,/favicon.ico");
+//        FilterSkipMatcher matcher = new FilterSkipMatcher(
+//                skipPathList,
+//                "/**"
+//        );
+//        RefreshFilter filter = new RefreshFilter(
+//                matcher,
+//                headerTokenExtractor
+//        );
+//        filter.setAuthenticationManager(super.authenticationManagerBean());
+//        return filter;
+//    }
+
 
     @Bean
     @Override

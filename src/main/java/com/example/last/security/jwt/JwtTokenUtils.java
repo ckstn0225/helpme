@@ -2,6 +2,7 @@ package com.example.last.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.last.Service.ForUser.TokenService;
 import com.example.last.security.UserDetailsImpl;
 
 
@@ -19,9 +20,16 @@ public final class JwtTokenUtils {
     // JWT 토큰의 유효기간: 3일 (단위: milliseconds)
     private static final int JWT_TOKEN_VALID_MILLI_SEC = JWT_TOKEN_VALID_SEC * 1000;
 
+
     public static final String CLAIM_EXPIRED_DATE = "EXPIRED_DATE";
     public static final String CLAIM_USER_NAME = "USER_NAME";
     public static final String JWT_SECRET = "jwt_secret_!@#$%";
+
+    private final TokenService tokenService ;
+
+    public JwtTokenUtils(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     public static String generateJwtToken(UserDetailsImpl userDetails) {
         String token = null;
@@ -38,6 +46,20 @@ public final class JwtTokenUtils {
 
         return token;
     }
+    public static String generaterefreshToken(UserDetailsImpl userDetails) {
+        String token = null;
+        try {
+            token = JWT.create()
+                    .withIssuer("sparta")
+
+                    .withClaim(CLAIM_EXPIRED_DATE, new Date(System.currentTimeMillis() + JWT_TOKEN_VALID_MILLI_SEC*3))
+                    .sign(generateAlgorithm());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return token;
+    }
+
 
     private static Algorithm generateAlgorithm() {
         return Algorithm.HMAC256(JWT_SECRET);

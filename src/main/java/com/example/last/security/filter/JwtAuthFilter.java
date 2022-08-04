@@ -1,6 +1,7 @@
 package com.example.last.security.filter;
 
 
+import com.example.last.Repository.RefreshTokenRepository;
 import com.example.last.security.jwt.HeaderTokenExtractor;
 import com.example.last.security.jwt.JwtPreProcessingToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +24,7 @@ import java.io.IOException;
 public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
 
     private final HeaderTokenExtractor extractor;
+
 
     public JwtAuthFilter(
             RequestMatcher requiresAuthenticationRequestMatcher,
